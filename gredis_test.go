@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/valery-barysok/gredisd/app"
-	"github.com/valery-barysok/gredisd/gredisd"
+	"github.com/valery-barysok/gredisd/gredisd-app"
 )
 
 func TestValidDial(t *testing.T) {
