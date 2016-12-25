@@ -70,7 +70,7 @@ func Dial(opts *Options) (*Client, error) {
 
 // Close flushes all pending writes and disconnect from GRedis server
 func (client *Client) Close() {
-	client.End()
+	client.Flush()
 	client.conn.Close()
 }
 
@@ -81,22 +81,17 @@ func (client *Client) Send(cmd []byte, args ...[]byte) error {
 		return err
 	}
 
-	if client.opts.WriteTimeout != 0 {
-		client.conn.SetWriteDeadline(time.Now().Add(client.opts.ReadTimeout))
-		defer client.conn.SetWriteDeadline(time.Time{})
-	}
-
-	return client.w.End()
+	return client.Flush()
 }
 
-// End flushes all pending writes to GRedis server
-func (client *Client) End() error {
+// Flush flushes all pending writes to GRedis server
+func (client *Client) Flush() error {
 	if client.opts.WriteTimeout != 0 {
 		client.conn.SetWriteDeadline(time.Now().Add(client.opts.ReadTimeout))
 		defer client.conn.SetWriteDeadline(time.Time{})
 	}
 
-	return client.w.End()
+	return client.w.Flush()
 }
 
 // Receive receives reply from GRedis server
