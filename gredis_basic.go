@@ -83,6 +83,7 @@ func (client *Client) Shutdown() error {
 	}
 
 	client.Close()
+
 	return nil
 }
 

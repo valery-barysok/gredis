@@ -125,11 +125,14 @@ func (client *Client) Do(cmd []byte, args ...[]byte) (*resp.Message, error) {
 
 func toBulkArray(args []string, keys ...string) [][]byte {
 	res := make([][]byte, 0, len(args)+len(keys))
+
 	for _, value := range keys {
 		res = append(res, []byte(value))
 	}
+
 	for _, value := range args {
 		res = append(res, []byte(value))
 	}
+
 	return res
 }
