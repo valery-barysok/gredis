@@ -27,11 +27,11 @@ Go client for [GRedis](https://github.com/valery-barysok/gredisd)
 
   Sends command to GRedis server
 
-##### Receive() (*resp.Item, error)
+##### Receive() (*resp.Message, error)
 
   Receives reply from GRedis server
 
-##### Do(cmd []byte, args ...[]byte) (*resp.Item, error)
+##### Do(cmd []byte, args ...[]byte) (*resp.Message, error)
 
   Sends command to GRedis server and receives reply from GRedis server
 

@@ -95,26 +95,26 @@ func (client *Client) Flush() error {
 }
 
 // Receive receives reply from GRedis server
-func (client *Client) Receive() (*resp.Item, error) {
+func (client *Client) Receive() (*resp.Message, error) {
 	if client.opts.ReadTimeout != 0 {
 		client.conn.SetReadDeadline(time.Now().Add(client.opts.ReadTimeout))
 		defer client.conn.SetReadDeadline(time.Time{})
 	}
 
-	item, err := client.r.Read()
+	msg, err := client.r.Read()
 	if err != nil {
 		return nil, err
 	}
 
-	if item.IsError() {
-		return nil, item.Err()
+	if msg.IsError() {
+		return nil, msg.Err()
 	}
 
-	return item, nil
+	return msg, nil
 }
 
 // Do sends command to GRedis server and receives reply from GRedis server
-func (client *Client) Do(cmd []byte, args ...[]byte) (*resp.Item, error) {
+func (client *Client) Do(cmd []byte, args ...[]byte) (*resp.Message, error) {
 	err := client.Send(cmd, args...)
 	if err != nil {
 		return nil, err
