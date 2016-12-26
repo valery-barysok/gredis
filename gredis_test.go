@@ -6,6 +6,7 @@ import (
 
 	"github.com/valery-barysok/gredisd/app"
 	"github.com/valery-barysok/gredisd/app/gredisd"
+	"time"
 )
 
 func TestValidDial(t *testing.T) {
@@ -266,6 +267,30 @@ func TestIntegrationForAllCommandsAtOnce(t *testing.T) {
 		Expect(exists).To(Equal(0))
 
 		exists, err = client.HExists(dictKey, dictKeyField)
+		Expect(err).ToNot(HaveOccurred())
+		Expect(exists).To(Equal(0))
+
+		expireKey := "expire_key"
+		exists, err = client.Exists(expireKey)
+		Expect(err).ToNot(HaveOccurred())
+		Expect(exists).To(Equal(0))
+
+		expireKeyValue := "expire_key_value"
+		success, err = client.Set(expireKey, expireKeyValue)
+		Expect(err).ToNot(HaveOccurred())
+		Expect(success).To(Equal(true))
+
+		exists, err = client.Exists(expireKey)
+		Expect(err).ToNot(HaveOccurred())
+		Expect(exists).To(Equal(1))
+
+		ok, err := client.Expire(expireKey, 1)
+		Expect(err).ToNot(HaveOccurred())
+		Expect(ok).To(Equal(1))
+
+		time.Sleep(2 * time.Second)
+
+		exists, err = client.Exists(expireKey)
 		Expect(err).ToNot(HaveOccurred())
 		Expect(exists).To(Equal(0))
 

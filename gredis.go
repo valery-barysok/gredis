@@ -1,11 +1,12 @@
 package gredis
 
 import (
-	"github.com/valery-barysok/resp"
 	"net"
 	"os"
 	"sync"
 	"time"
+
+	"github.com/valery-barysok/resp"
 )
 
 var defaultProtocol *resp.Protocol
